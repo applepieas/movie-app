@@ -1,6 +1,7 @@
 import { pingAppwrite } from "@/lib/appwrite";
 import { Stack } from "expo-router";
 import { useEffect } from "react";
+import { StatusBar } from "react-native";
 import './globals.css';
 
 export default function RootLayout() {
@@ -10,16 +11,25 @@ export default function RootLayout() {
     });
   }, []);
 
-  return <Stack>
-    <Stack.Screen
-      name="(tabs)"
-      options={{ headerShown: false }}
-    />
+  return (
+    <>
 
-    <Stack.Screen
-      name="movies/[id]"
-      options={{ headerShown: false }}
-    />
+      <StatusBar
+        hidden={true}
+      />
 
-  </Stack>;
+      <Stack>
+
+        <Stack.Screen
+          name="(tabs)"
+          options={{ headerShown: false }}
+        />
+
+        <Stack.Screen
+          name="movies/[id]"
+          options={{ headerShown: false }}
+        />
+
+      </Stack>
+    </>);
 }

@@ -3,6 +3,7 @@ import SearchBar from '@/components/SearchBar'
 import { icons } from '@/constants/icons'
 import { images } from '@/constants/images'
 import { fetchMovies } from '@/services/api'
+import { updateSearchCount } from '@/services/appwrite'
 import useFetch from '@/services/useFetch'
 import React, { useCallback, useEffect, useState } from 'react'
 import { ActivityIndicator, FlatList, Image, Text, View } from 'react-native'
@@ -22,6 +23,19 @@ const Search = () => {
   } = useFetch(searchMoviesByQuery, false)
 
   useEffect(() => {
+    const query = searchQuery.trim()
+
+    if (!query || !movies?.length) return
+
+    updateSearchCount(query, movies[0]).then(() => {
+      console.log('Search count updated for:', query)
+    }).catch((error) => {
+      console.warn('Failed to update search count in Appwrite:', error);
+    });
+  }, [movies, searchQuery])
+
+  useEffect(() => {
+
     const query = searchQuery.trim()
 
     if (!query) {
